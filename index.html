@@ -1,30 +1,66 @@
 <html>
 <head>
     <style>
+
+    @-moz-keyframes spin {
+    from { -moz-transform: rotate(0deg); }
+    to { -moz-transform: rotate(360deg); }
+    }
+    @-webkit-keyframes spin {
+        from { -webkit-transform: rotate(0deg); }
+        to { -webkit-transform: rotate(360deg); }
+    }
+    @keyframes spin {
+        from {transform:rotate(0deg);}
+        to {transform:rotate(360deg);}
+    }
+    
+    .transition{transition: all 1s ease-in;}
+    .loading{height: 100%; width: 100%; position: absolute; top: -100%; left: -100%; background: #fff; opacity: 1;}
+    .loading.in{top: 0; left: 0; opacity: 0.5;}
+    .loading span{position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        -webkit-animation-name: spin;
+        -webkit-animation-duration: 2000ms;
+        -webkit-animation-iteration-count: infinite;
+        -webkit-animation-timing-function: linear;
+        -moz-animation-name: spin;
+        -moz-animation-duration: 2000ms;
+        -moz-animation-iteration-count: infinite;
+        -moz-animation-timing-function: linear;
+        -ms-animation-name: spin;
+        -ms-animation-duration: 2000ms;
+        -ms-animation-iteration-count: infinite;
+        -ms-animation-timing-function: linear;
+        -o-transition: rotate(3600deg);
+    }
+
     #drawing{list-style: none;}
     #drawing li{float: left; margin: 1em;}
     </style>
 </head>
 <body>
-    <ul id="drawing"></ul>
+    <div id="drawing"></div>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/ractive/0.7.3/ractive.min.js'></script>
     <script id='list-item' type='text/ractive'>
-        {{#each zipcodes}}
-        <li>
-            <h3>{{ zipcode }}</h3>
-            <p>total addresses:<br>
-            {{total}}</p>
-            <svg height="60" width="100">
-                <g>
-                    <line x1="0" y1="10" x2="{{(compliance2010 / total * 100) || 1}}" y2="10" style="stroke:red;stroke-width:10" />
-                    <line x1="0" y1="21" x2="{{(compliance2011 / total * 100) || 1}}" y2="21" style="stroke:green;stroke-width:10" />
-                    <line x1="0" y1="32" x2="{{(compliance2012 / total * 100) || 1}}" y2="32" style="stroke:blue;stroke-width:10" />
-                    <line x1="0" y1="43" x2="{{(compliance2013 / total * 100) || 1}}" y2="43" style="stroke:grey;stroke-width:10" />
-                    <line x1="0" y1="54" x2="{{(compliance2014 / total * 100) || 1}}" y2="54" style="stroke:orange;stroke-width:10" />
-                </g>
-            </svg>
-        </li>
-        {{/each}}
+        <div class="loading transition{{#if loading}} in{{/if}}"><span>----loading----</span></div>
+        <ul>
+            {{#each zipcodes}}
+            <li>
+                <h3>{{ zipcode }}</h3>
+                <p>total addresses:<br>
+                {{total}}</p>
+                <svg height="60" width="100">
+                    <g>
+                        <line x1="0" y1="10" x2="{{(compliance2010 / total * 100) || 1}}" y2="10" style="stroke:red;stroke-width:10" />
+                        <line x1="0" y1="21" x2="{{(compliance2011 / total * 100) || 1}}" y2="21" style="stroke:green;stroke-width:10" />
+                        <line x1="0" y1="32" x2="{{(compliance2012 / total * 100) || 1}}" y2="32" style="stroke:blue;stroke-width:10" />
+                        <line x1="0" y1="43" x2="{{(compliance2013 / total * 100) || 1}}" y2="43" style="stroke:grey;stroke-width:10" />
+                        <line x1="0" y1="54" x2="{{(compliance2014 / total * 100) || 1}}" y2="54" style="stroke:orange;stroke-width:10" />
+                    </g>
+                </svg>
+            </li>
+            {{/each}}
+        </ul>
     </script>
     <script src="./fetch.js"></script>
     <script src="./app.js"></script>

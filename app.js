@@ -14,7 +14,8 @@ function energyViz(){
         el: '#drawing',
         template: '#list-item',
         data: {
-            'zipcodes': []
+            'zipcodes': [],
+            'loading': true
         }
     });
 };
@@ -27,6 +28,7 @@ energyViz.prototype.loadData = function(url){
         method: 'get'
     }).then(function(rsp) {
         return rsp.json().then(function(json){
+            console.log('jsoned');
             var zipcode;
             var compliance2010, compliance2011, compliance2012, compliance2013, compliance2014;
             json.data.forEach(function(row){
@@ -85,7 +87,9 @@ energyViz.prototype.loadData = function(url){
 energyViz.prototype.go = function(){
     var _this = this;
     return this.loadData('./data.json').then(function(){
+        console.log('loaded');
         _this.ractive.set('zipcodes', _this.zipcodes);
+        _this.ractive.set('loading', false);
     });
 };
 
