@@ -123,7 +123,6 @@ energyViz.prototype.loadData = function(url){
 energyViz.prototype.go = function(){
     var _this = this;
     return this.loadData('./data.json').then(function(){
-        console.log(_this.zipcodes);
         _this.ractive.set('zipcodes', _this.zipcodes);
         setTimeout(function(){
             _this.ractive.set('loading', false);
