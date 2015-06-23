@@ -1,11 +1,26 @@
 
-function zipcode(){
-    this.zipcode = '';
-    this.compliance = {
-        'compliedCount': 0,
-        'unCompliedCount': 0,
-        'other': 0
-    };
+function zipcode(zip, na2010, noncompliance2010, compliance2010, na2011, noncompliance2011, compliance2011, na2012, noncompliance2012, compliance2012, na2013, noncompliance2013, compliance2013, na2014, noncompliance2014, compliance2014, total){
+    this.zipcode = zip;
+    this.na2010 = na2010;
+    this.noncompliance2010 = noncompliance2010;
+    this.compliance2010 = compliance2010;
+    this.na2011 = na2011;
+    this.noncompliance2011 = noncompliance2011;
+    this.compliance2011 = compliance2011;
+    this.na2012 = na2012;
+    this.noncompliance2012 = noncompliance2012;
+    this.compliance2012 = compliance2012;
+    this.na2013 = na2013;
+    this.noncompliance2013 = noncompliance2013;
+    this.compliance2013 = compliance2013;
+    this.na2014 = na2014;
+    this.noncompliance2014 = noncompliance2014;
+    this.compliance2014 = compliance2014;
+    this.total = total;
+};
+
+zipcode.prototype.complianceEnd = function(year){
+    return (this['compliance' + year] / this.total * 100) || 1
 };
 
 function energyViz(){
@@ -78,30 +93,22 @@ energyViz.prototype.loadData = function(url){
             });
             var zipcodesArr = [];
             for (var zip in _this.zipcodes){
-                zipcodesArr.push({
-                    'zipcode': zip,
-                    'compliance2010': _this.zipcodes[zip].compliance2010,
-                    'noncompliance2010': _this.zipcodes[zip].noncompliance2010,
-                    'na2010': _this.zipcodes[zip].na2010,
-                    'compliance2011': _this.zipcodes[zip].compliance2011,
-                    'noncompliance2011': _this.zipcodes[zip].noncompliance2011,
-                    'na2011': _this.zipcodes[zip].na2011,
-                    'compliance2012': _this.zipcodes[zip].compliance2012,
-                    'noncompliance2012': _this.zipcodes[zip].noncompliance2012,
-                    'na2012': _this.zipcodes[zip].na2012,
-                    'compliance2013': _this.zipcodes[zip].compliance2013,
-                    'noncompliance2013': _this.zipcodes[zip].noncompliance2013,
-                    'na2013': _this.zipcodes[zip].na2013,
-                    'compliance2014': _this.zipcodes[zip].compliance2014,
-                    'noncompliance2014': _this.zipcodes[zip].noncompliance2014,
-                    'na2014': _this.zipcodes[zip].na2014,
-                    'total': _this.zipcodes[zip].total
-                })
-            };
+                zipcodesArr.push(
+                    new zipcode(
+                        zip,
+                        _this.zipcodes[zip].na2010, _this.zipcodes[zip].noncompliance2010, _this.zipcodes[zip].compliance2010,
+                        _this.zipcodes[zip].na2011, _this.zipcodes[zip].noncompliance2011, _this.zipcodes[zip].compliance2011,
+                        _this.zipcodes[zip].na2012, _this.zipcodes[zip].noncompliance2012, _this.zipcodes[zip].compliance2012,
+                        _this.zipcodes[zip].na2013, _this.zipcodes[zip].noncompliance2013, _this.zipcodes[zip].compliance2013,
+                        _this.zipcodes[zip].na2014, _this.zipcodes[zip].noncompliance2014, _this.zipcodes[zip].compliance2014,
+                        _this.zipcodes[zip].total
+                    )
+                );
+            }
             zipcodesArr.sort(function(a, b){
-                if(a > b){
+                if(a.zipcode > b.zipcode){
                     return 1;
-                } else if(a < b){
+                } else if(a.zipcode < b.zipcode){
                     return -1;
                 }
                 return 0;
@@ -116,6 +123,7 @@ energyViz.prototype.loadData = function(url){
 energyViz.prototype.go = function(){
     var _this = this;
     return this.loadData('./data.json').then(function(){
+        console.log(_this.zipcodes);
         _this.ractive.set('zipcodes', _this.zipcodes);
         setTimeout(function(){
             _this.ractive.set('loading', false);
