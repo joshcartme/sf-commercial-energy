@@ -40,18 +40,38 @@ energyViz.prototype.loadData = function(url){
                 if (_this.zipcodes[zipcode] == undefined){
                     _this.zipcodes[zipcode] = {
                         'compliance2010': (compliance2010 === 'Complied' ? 1 : 0),
+                        'noncompliance2010': (compliance2010 === 'Did Not Comply' ? 1 : 0),
+                        'na2010': (compliance2010 === 'N/A' ? 1 : 0),
                         'compliance2011': (compliance2011 === 'Complied' ? 1 : 0),
+                        'noncompliance2011': (compliance2011 === 'Did Not Comply' ? 1 : 0),
+                        'na2011': (compliance2011 === 'N/A' ? 1 : 0),
                         'compliance2012': (compliance2012 === 'Complied' ? 1 : 0),
+                        'noncompliance2012': (compliance2012 === 'Did Not Comply' ? 1 : 0),
+                        'na2012': (compliance2012 === 'N/A' ? 1 : 0),
                         'compliance2013': (compliance2013 === 'Complied' ? 1 : 0),
+                        'noncompliance2013': (compliance2013 === 'Did Not Comply' ? 1 : 0),
+                        'na2013': (compliance2013 === 'N/A' ? 1 : 0),
                         'compliance2014': (compliance2014 === 'Complied' ? 1 : 0),
+                        'noncompliance2014': (compliance2014 === 'Did Not Comply' ? 1 : 0),
+                        'na2014': (compliance2014 === 'N/A' ? 1 : 0),
                         'total': 1
                     }
                 } else {
                     _this.zipcodes[zipcode].compliance2010 += (compliance2010 === 'Complied' ? 1 : 0);
+                    _this.zipcodes[zipcode].noncompliance2010 += (compliance2010 === 'Did Not Comply' ? 1 : 0);
+                    _this.zipcodes[zipcode].na2010 += (compliance2010 === 'N/A' ? 1 : 0);
                     _this.zipcodes[zipcode].compliance2011 += (compliance2011 === 'Complied' ? 1 : 0);
+                    _this.zipcodes[zipcode].noncompliance2011 += (compliance2011 === 'Did Not Comply' ? 1 : 0);
+                    _this.zipcodes[zipcode].na2011 += (compliance2011 === 'N/A' ? 1 : 0);
                     _this.zipcodes[zipcode].compliance2012 += (compliance2012 === 'Complied' ? 1 : 0);
+                    _this.zipcodes[zipcode].noncompliance2012 += (compliance2012 === 'Did Not Comply' ? 1 : 0);
+                    _this.zipcodes[zipcode].na2012 += (compliance2012 === 'N/A' ? 1 : 0);
                     _this.zipcodes[zipcode].compliance2013 += (compliance2013 === 'Complied' ? 1 : 0);
+                    _this.zipcodes[zipcode].noncompliance2013 += (compliance2013 === 'Did Not Comply' ? 1 : 0);
+                    _this.zipcodes[zipcode].na2013 += (compliance2013 === 'N/A' ? 1 : 0);
                     _this.zipcodes[zipcode].compliance2014 += (compliance2014 === 'Complied' ? 1 : 0);
+                    _this.zipcodes[zipcode].noncompliance2014 += (compliance2014 === 'Did Not Comply' ? 1 : 0);
+                    _this.zipcodes[zipcode].na2014 += (compliance2014 === 'N/A' ? 1 : 0);
                     _this.zipcodes[zipcode].total += 1;
 
                 }
@@ -61,10 +81,20 @@ energyViz.prototype.loadData = function(url){
                 zipcodesArr.push({
                     'zipcode': zip,
                     'compliance2010': _this.zipcodes[zip].compliance2010,
+                    'noncompliance2010': _this.zipcodes[zip].noncompliance2010,
+                    'na2010': _this.zipcodes[zip].na2010,
                     'compliance2011': _this.zipcodes[zip].compliance2011,
+                    'noncompliance2011': _this.zipcodes[zip].noncompliance2011,
+                    'na2011': _this.zipcodes[zip].na2011,
                     'compliance2012': _this.zipcodes[zip].compliance2012,
+                    'noncompliance2012': _this.zipcodes[zip].noncompliance2012,
+                    'na2012': _this.zipcodes[zip].na2012,
                     'compliance2013': _this.zipcodes[zip].compliance2013,
+                    'noncompliance2013': _this.zipcodes[zip].noncompliance2013,
+                    'na2013': _this.zipcodes[zip].na2013,
                     'compliance2014': _this.zipcodes[zip].compliance2014,
+                    'noncompliance2014': _this.zipcodes[zip].noncompliance2014,
+                    'na2014': _this.zipcodes[zip].na2014,
                     'total': _this.zipcodes[zip].total
                 })
             };
@@ -87,7 +117,9 @@ energyViz.prototype.go = function(){
     var _this = this;
     return this.loadData('./data.json').then(function(){
         _this.ractive.set('zipcodes', _this.zipcodes);
-        _this.ractive.set('loading', false);
+        setTimeout(function(){
+            _this.ractive.set('loading', false);
+        }, 1000);
     });
 };
 
