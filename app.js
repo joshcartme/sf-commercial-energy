@@ -17,11 +17,12 @@ function zipcode(zip, na2010, noncompliance2010, compliance2010, na2011, noncomp
     this.noncompliance2014 = noncompliance2014;
     this.compliance2014 = compliance2014;
     this.total = total;
-};
-
-zipcode.prototype.complianceEnd = function(year){
-    return (this['compliance' + year] / this.total * 100) || 1
-};
+    var _this = this;
+    this.complianceEnd = function(year){
+        console.log(_this);
+        return (_this['compliance' + year] / _this.total * 100) || 1;
+    };
+}
 
 function energyViz(){
     this.zipcodes = {};
@@ -133,7 +134,7 @@ energyViz.prototype.go = function(){
 var setup = function(){
     var viz = new energyViz();
     viz.go();
-}
+};
 
 function ready(fn) {
     if (document.readyState != 'loading'){
